@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,6 +17,10 @@ public class Problem {
             bfs.search(_start,_goal);
         }
         else if (this._algo.equals("DFID")){
+            DFID dfid = new DFID();
+            CFS ans = dfid.search(_start, _goal);
+            System.out.println(ans);
+
 
         }
 

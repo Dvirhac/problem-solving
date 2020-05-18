@@ -25,7 +25,7 @@ public class BFS implements Algorithm {
                         long end_time = System.currentTimeMillis();
                         double time = end_time-current_time;
                         System.out.println(time/1000);
-                        Printer.print(goal);
+                        Printer.print(child);
                         System.out.println(sum);
                         for (Node open : open_list){
                             System.out.println(open.toString());

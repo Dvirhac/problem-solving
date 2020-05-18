@@ -8,12 +8,11 @@ public class Node {
     private Slot [][] _board;
     private Node _parent;
     private int _cost;
-    private String _way_of_getting;
+    private String path;
 
 
     public Node(Slot[][] locations) {
         this._board = locations;
-        _way_of_getting = "";
         _cost = 0;
     }
 
@@ -29,7 +28,7 @@ public class Node {
         this._board = slots;
         this._parent = o._parent;
         this._cost = o._cost;
-        this._way_of_getting = o._way_of_getting;
+        this.path = o.path;
     }
 
 
@@ -52,11 +51,11 @@ public class Node {
     public void set_cost(int _cost) {
         this._cost = _cost;
     }
-    public String get_way_of_getting() {
-        return _way_of_getting;
+    public String getPath() {
+        return path;
     }
-    public void set_way_of_getting(String _way_of_getting) {
-        this._way_of_getting = _way_of_getting;
+    public void setPath(String path) {
+        this.path = path;
     }
 
 
@@ -77,8 +76,8 @@ public class Node {
 
     @Override
     public int hashCode() {
-           // return Arrays.hashCode(_board);
-        return 1;
+           return Arrays.hashCode(_board);
+        //return 1;
     }
 
     @Override
