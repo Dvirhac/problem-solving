@@ -1,19 +1,14 @@
 import java.util.Objects;
 
-public class Slot {
+public class Square {
     private String _val;
     private Color _color;
-    private int _cost;
 
-    Slot(String spot){
-        this._val = spot;
-        this._cost = 0;
-    }
+    Square(String spot){ this._val = spot; }
 
-    Slot(Slot o){
+    Square(Square o){
         this._val = o._val;
         this._color = o._color;
-        this._cost = o._cost;
     }
 
     public String get_val() {
@@ -24,20 +19,19 @@ public class Slot {
         this._val = _val;
     }
 
-    public Color get_color() {
-        return _color;
-    }
-
     public void set_color(Color _color) {
         this._color = _color;
     }
 
     public int get_cost() {
-        return _cost;
-    }
-
-    public void set_cost(int _cost) {
-        this._cost = _cost;
+        int ans = 0;
+        switch (_color){
+            case GREEN: ans = 1;
+                break;
+            case RED: ans =  30;
+                break;
+        }
+        return ans;
     }
 
 
@@ -45,7 +39,7 @@ public class Slot {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Slot slot = (Slot) o;
+        Square slot = (Square) o;
         return _val.equals(slot._val);
     }
 

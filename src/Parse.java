@@ -15,8 +15,6 @@ public class Parse {
                     input.add(line);
                     line = reader.readLine();
                 }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

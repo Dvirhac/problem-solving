@@ -5,7 +5,7 @@ public class Printer {
         int cost = 0;
         Node runner = goal;
         while(runner.get_parent() != null){
-            path.append(runner.getPath());
+            path.append(runner.get_path());
             cost = cost + runner.get_cost();
             runner = runner.get_parent();
 
@@ -16,6 +16,6 @@ public class Printer {
     }
 
     public static void print(String st){
-
+        System.out.println(st);
     }
 }

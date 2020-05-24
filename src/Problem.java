@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,11 +7,13 @@ public class Problem {
     private boolean _open;
     private Node _start;
     private Node _goal;
-    private Node test;
-    private Node ans;
+    Algorithm algorithm = new Algorithm();
+
 
     public void search(){
-        if (this._algo.equals("BFS")){
+        algorithm.search(_start,_goal,_algo,_open,_time);
+
+        /*if (this._algo.equals("BFS")){
             BFS bfs = new BFS();
             bfs.search(_start,_goal);
         }
@@ -22,10 +23,9 @@ public class Problem {
             System.out.println(ans);
 
 
-        }
+        }*/
 
     }
-
 
 
     public void load(String path){
@@ -36,42 +36,39 @@ public class Problem {
         String [] size = (data.get(3).split("x"));
         int rows = Integer.parseInt(size[0]);
         int columns = Integer.parseInt(size[1]);
-        String [] black = data.get(4).substring(6).replace(" ", "").split(",");
-        ArrayList<String> blacks = new ArrayList<>(Arrays.asList(black));
+        ArrayList<String> blacks = new ArrayList<>(Arrays.asList(data.get(4).substring(6).replace(" ", "").split(",")));
         ArrayList<String> reds =new ArrayList<>(Arrays.asList(data.get(5).substring(4).replace(" ", "").split(",")));
-        Slot [][] locations= new Slot[rows][columns];
+        Square[][] locations= new Square[rows][columns];
         for (int i = 6; i < 6 + rows; ++i){
-            Slot [] slots = new Slot[columns];
+            Square[] slots = new Square[columns];
             String [] row = data.get(i).split(",");
             for (int j = 0 ; j < columns ; ++j){
-                Slot slot = new Slot(row[j]);
+                Square slot = new Square(row[j]);
                 if (blacks.contains(row[j])){
-                    slot.set_color(Color.Black);
+                    slot.set_color(Color.BLACK);
                 }
                 else if (reds.contains(row[j])){
-                    slot.set_color(Color.Red);
-                    slot.set_cost(30);
+                    slot.set_color(Color.RED);
                 }
                 else if (row[j].equals("_")){
                     slot.set_color(Color.Empty);
                 }
                 else {
-                    slot.set_color(Color.Green);
-                    slot.set_cost(1);
-                }
+                    slot.set_color(Color.GREEN);
+               }
+
                 slots[j] = slot;
             }
             locations[i - 6] = slots;
         }
 
         this._start = new Node(locations);
-        locations = new Slot[rows][columns];
-        this._start.set_parent(null);
+        locations = new Square[rows][columns];
         int z = 1;
         for (int i = 0 ; i < rows ; ++i){
-            Slot [] slots = new Slot[columns];
+            Square[] slots = new Square[columns];
             for (int j = 0 ; j < columns ; ++j){
-                slots[j] = new Slot("" + z);
+                slots[j] = new Square("" + z);
                 z++;
             }
             locations[i] = slots;

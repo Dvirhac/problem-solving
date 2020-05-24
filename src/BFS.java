@@ -3,8 +3,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BFS implements Algorithm {
-    @Override
+public class BFS {
     public void search(Node start, Node goal) {
         long current_time = System.currentTimeMillis();
         int sum = 1;
@@ -12,13 +11,13 @@ public class BFS implements Algorithm {
         HashSet<Node> closed_list = new HashSet<>(),open_list = new HashSet<>();
         queue.add(start);
         open_list.add(start);
-        Operation operation = new Operation();
+        ChildrenMaker childrenMaker = new ChildrenMaker();
         while (!queue.isEmpty()){
             Node node = queue.poll();
             open_list.remove(node);
             closed_list.add(node);
-            operation.set_node(node);
-            for (Node child : operation.getChildren()){
+            childrenMaker.set_node(node);
+            for (Node child = childrenMaker.getChild(); child != null; child = childrenMaker.getChild()){
                 sum++;
                 if (!closed_list.contains(child) && !open_list.contains(child)){
                     if (child.equals(goal)){

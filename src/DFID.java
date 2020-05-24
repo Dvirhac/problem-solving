@@ -24,9 +24,9 @@ public class DFID   {
         else{
             path.add(node);
             boolean is_cutoff = false;
-            Operation operation = new Operation();
-            operation.set_node(node);
-            for (Node child: operation.getChildren()){
+            ChildrenMaker childrenMaker = new ChildrenMaker();
+            childrenMaker.set_node(node);
+            for (Node child = childrenMaker.getChild(); child != null; child = childrenMaker.getChild()){
                 if (path.contains(child))
                     continue;
                 CFS result = limitedDFS(child, goal, limit-1, path);

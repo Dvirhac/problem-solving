@@ -1,63 +1,47 @@
 import java.util.Arrays;
 
-public class Node {
-    private boolean _came_from_left = false;
-    private boolean _came_from_right = false;
-    private boolean _came_from_up = false;
-    private boolean _came_from_down = false;
-    private Slot [][] _board;
-    private Node _parent;
-    private int _cost;
-    private String path;
+public class Node implements Comparable{
+    private boolean out = false;
+    private Square [][] _board;
+    private String _path;
+    private final int _iter;
+    private final int _came_from;
+    private final int _cost;
+    private final int _g;
+    private final Node _parent;
+    private int _h = 1;
 
 
-    public Node(Slot[][] locations) {
+    public Node(Square[][] locations) {
         this._board = locations;
-        _cost = 0;
+        this._cost = 0;
+        this._g = 0;
+        this._iter = 0;
+        this._came_from = -1;
+        this._parent = null;
     }
 
-    public Node(Node o){
-        Slot[][] slots = new Slot[o._board.length][o._board[0].length];
-        for (int i = 0 ; i < o._board.length; ++i){
-            for (int j = 0 ; j < o._board[i].length ; ++j){
-                Slot slot = new Slot(o._board[i][j]);
-                slots[i][j] = slot;
+    public Node(Node o, int _came_from, int _cost){
+
+        this._board = copy(o._board);
+        this._came_from = _came_from;
+        this._iter = o._iter + 1;
+        this._parent = o;
+        this._cost = _cost;
+        this._g = o._g + this._cost;
+    }
+
+    private Square[][] copy(Square[][] board) {
+        Square[][] new_board= new Square[board.length][board[0].length];
+        for (int i = 0 ; i < board.length; ++i){
+            for (int j = 0 ; j < board[i].length ; ++j){
+                Square slot = new Square(board[i][j]);
+                new_board[i][j] = slot;
             }
         }
+        return new_board;
 
-        this._board = slots;
-        this._parent = o._parent;
-        this._cost = o._cost;
-        this.path = o.path;
     }
-
-
-
-    public Slot[][] get_board() {
-        return _board;
-    }
-    public void set_board(Slot[][] _board) {
-        this._board = _board;
-    }
-    public Node get_parent() {
-        return _parent;
-    }
-    public void set_parent(Node _parent) {
-        this._parent = _parent;
-    }
-    public int get_cost() {
-        return _cost;
-    }
-    public void set_cost(int _cost) {
-        this._cost = _cost;
-    }
-    public String getPath() {
-        return path;
-    }
-    public void setPath(String path) {
-        this.path = path;
-    }
-
 
     @Override
     public String toString() {
@@ -75,9 +59,18 @@ public class Node {
     }
 
     @Override
+    public int compareTo(Object o) {
+        Node other = (Node) o;
+        int f = Integer.compare(_g + _h, other._g + other._h);
+        if (f != 0) return f;
+        int iter = Integer.compare(_iter, other._iter);
+        if ( iter != 0) return iter;
+        return Integer.compare(_came_from, other._came_from);
+    }
+
+    @Override
     public int hashCode() {
-           return Arrays.hashCode(_board);
-        //return 1;
+        return Arrays.hashCode(_board);
     }
 
     @Override
@@ -93,36 +86,24 @@ public class Node {
         return true;
     }
 
-    public boolean is_came_from_left() {
-        return _came_from_left;
-    }
 
-    public void set_came_from_left(boolean _came_from_left) {
-        this._came_from_left = _came_from_left;
-    }
 
-    public boolean is_came_from_right() {
-        return _came_from_right;
-    }
+    //------------------getters ans setters------------------------
+    private int h(){ return 0; }
+    public void set_h(int _h) { this._h = _h; }
+    public int get_f(){ return _h + _g; }
+    private void set_h () { this._h = 1; }
+    private int get_g(){ return _g; }
+    public int get_came_from() { return _came_from; }
+    public int get_h() { return _h; }
+    public boolean isOut() { return out; }
+    public void setOut(boolean out) { this.out = out; }
+    public void setH(int h) { this._h = h; }
+    public Square[][] get_board() { return _board; }
+    public Node get_parent() { return _parent; }
+    public int get_cost() { return _cost; }
+    public String get_path() { return _path; }
+    public void set_path(String _path) { this._path = _path; }
 
-    public void set_came_from_right(boolean _came_from_right) {
-        this._came_from_right = _came_from_right;
-    }
-
-    public boolean is_came_from_up() {
-        return _came_from_up;
-    }
-
-    public void set_came_from_up(boolean _came_from_up) {
-        this._came_from_up = _came_from_up;
-    }
-
-    public boolean is_came_from_down() {
-        return _came_from_down;
-    }
-
-    public void set_came_from_down(boolean _came_from_down) {
-        this._came_from_down = _came_from_down;
-    }
 
 }
