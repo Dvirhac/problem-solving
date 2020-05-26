@@ -2,14 +2,14 @@ import java.util.Arrays;
 
 public class Node implements Comparable{
     private boolean out = false;
-    private Square [][] _board;
     private String _path;
+    private final Square [][] _board;
     private final int _iter;
     private final int _came_from;
     private final int _cost;
     private final int _g;
     private final Node _parent;
-    private int _h = 1;
+    private int _h = 0;
 
 
     public Node(Square[][] locations) {
@@ -48,7 +48,7 @@ public class Node implements Comparable{
         String [][] currentMode = new String [_board.length][_board[0].length];
         for (int i = 0 ; i < _board.length; ++i){
             for (int j = 0 ; j < _board[i].length; ++j){
-                currentMode[i][j] = _board[i][j].get_val();
+                currentMode[i][j] = ""+_board[i][j].get_val();
             }
         }
         StringBuilder ans = new StringBuilder();
@@ -61,7 +61,7 @@ public class Node implements Comparable{
     @Override
     public int compareTo(Object o) {
         Node other = (Node) o;
-        int f = Integer.compare(_g + _h, other._g + other._h);
+        int f = Integer.compare(_g + get_h(), other._g + other.get_h());
         if (f != 0) return f;
         int iter = Integer.compare(_iter, other._iter);
         if ( iter != 0) return iter;
@@ -86,19 +86,33 @@ public class Node implements Comparable{
         return true;
     }
 
+    public int get_h() {
+        if (_h == 0){
+            int ans = 0;
+            for (int i = 0 ; i < this._board.length ; ++i){
+                for (int j = 0 ; j < this._board[0].length ; ++j){
+                    int val = _board[i][j].get_val();
+                    if ( val == -1 )
+                        continue;
+                    int row = (val - 1) / _board[0].length;
+                    int col = (val - 1) % _board[0].length;
+                    ans += (Math.abs(row - i) + Math.abs(col - j)) *_board[i][j].get_cost();
+                }
+            }
+            _h = ans;
+        }
+        return _h;
+    }
+
+
 
 
     //------------------getters ans setters------------------------
-    private int h(){ return 0; }
-    public void set_h(int _h) { this._h = _h; }
-    public int get_f(){ return _h + _g; }
-    private void set_h () { this._h = 1; }
-    private int get_g(){ return _g; }
+    public int get_g(){return _g;}
+    public int get_f(){ return get_h() + _g; }
     public int get_came_from() { return _came_from; }
-    public int get_h() { return _h; }
     public boolean isOut() { return out; }
     public void setOut(boolean out) { this.out = out; }
-    public void setH(int h) { this._h = h; }
     public Square[][] get_board() { return _board; }
     public Node get_parent() { return _parent; }
     public int get_cost() { return _cost; }

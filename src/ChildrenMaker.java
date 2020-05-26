@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ChildrenMaker {
     private Node _node;
     private int _move_to = 0;
@@ -38,10 +40,10 @@ public class ChildrenMaker {
         return child;
     }
 
-    private int[] find_(){
+    private int[] find(){
         for (int i = 0 ; i < _node.get_board().length; ++i){
             for (int j = 0; j < _node.get_board()[i].length ; ++j){
-                if (_node.get_board()[i][j].get_val().equals("_")){
+                if (_node.get_board()[i][j].get_val() == -1){
                     return new int[]{i, j};
                 }
             }
@@ -63,6 +65,14 @@ public class ChildrenMaker {
     public void set_node(Node _node) {
         this._move_to = 0;
         this._node = _node;
-        index = find_();
+        index = find();
+    }
+
+    public ArrayList<Node> getChildren() {
+        ArrayList<Node> children = new ArrayList<>();
+        for (Node child = getChild(); child != null ; child = getChild()){
+            children.add(child);
+        }
+        return children;
     }
 }

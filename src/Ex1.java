@@ -4,7 +4,6 @@ public class Ex1 {
         Problem problem = new Problem();
         problem.load("input.txt");
         problem.search();
-        System.out.println("gfg");
 
     }
 }

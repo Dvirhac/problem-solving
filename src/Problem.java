@@ -12,24 +12,11 @@ public class Problem {
 
     public void search(){
         algorithm.search(_start,_goal,_algo,_open,_time);
-
-        /*if (this._algo.equals("BFS")){
-            BFS bfs = new BFS();
-            bfs.search(_start,_goal);
-        }
-        else if (this._algo.equals("DFID")){
-            DFID dfid = new DFID();
-            CFS ans = dfid.search(_start, _goal);
-            System.out.println(ans);
-
-
-        }*/
-
     }
 
 
-    public void load(String path){
-        ArrayList<String> data = Parse.load();
+    public void load(String file){
+        ArrayList<String> data = Parse.load(file);
         this._algo = data.get(0);
         _time = data.get(1).contains("with");
         _open = !data.get(2).contains("no");
@@ -50,12 +37,11 @@ public class Problem {
                 else if (reds.contains(row[j])){
                     slot.set_color(Color.RED);
                 }
-                else if (row[j].equals("_")){
-                    slot.set_color(Color.Empty);
-                }
                 else {
-                    slot.set_color(Color.GREEN);
-               }
+                    if (!row[j].equals("_")) {
+                        slot.set_color(Color.GREEN);
+                   }
+                }
 
                 slots[j] = slot;
             }
@@ -74,7 +60,7 @@ public class Problem {
             locations[i] = slots;
         }
         this._goal = new Node(locations);
-        this._goal.get_board()[rows -1 ][columns -1 ].set_val("_");
+        this._goal.get_board()[rows -1 ][columns -1 ].set_val( -1 );
     }
 
 

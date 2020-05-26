@@ -1,21 +1,28 @@
 import java.util.Objects;
 
 public class Square {
-    private String _val;
+    private int _val;
     private Color _color;
 
-    Square(String spot){ this._val = spot; }
+    Square(String spot){
+        if (spot.equals("_")){
+            this._val = -1;
+        }
+        else{
+            this._val = Integer.parseInt(spot);
+        }
+    }
 
     Square(Square o){
         this._val = o._val;
         this._color = o._color;
     }
 
-    public String get_val() {
+    public int get_val() {
         return _val;
     }
 
-    public void set_val(String _val) {
+    public void set_val(int _val) {
         this._val = _val;
     }
 
@@ -30,6 +37,7 @@ public class Square {
                 break;
             case RED: ans =  30;
                 break;
+            case BLACK: ans = -1;
         }
         return ans;
     }
@@ -40,7 +48,7 @@ public class Square {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Square slot = (Square) o;
-        return _val.equals(slot._val);
+        return _val == slot._val;
     }
 
     @Override

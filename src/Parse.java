@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Parse {
 
-    static ArrayList<String> load() {
+    static ArrayList<String> load(String file) {
         ArrayList<String> input = new ArrayList<>();
         BufferedReader reader;
         {
             try {
-                reader = new BufferedReader(new FileReader("input.txt"));
+                reader = new BufferedReader(new FileReader(file));
                 String line = reader.readLine();
                 while (line != null) {
                     input.add(line);
